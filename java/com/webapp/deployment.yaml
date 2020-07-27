@@ -1,0 +1,59 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: tomcat
+  namespace: default
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: tomcat
+    spec:
+      containers:
+      - name: tomcat
+        image: harshkarora/tomcat:dev
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: 0.1
+            memory: 1Gi
+          requests:
+            cpu: 0.01
+            memory: .1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: hello-spark
+  name: tomcat
+  namespace: default
+spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: tomcat
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+  name: tomcat
+  namespace: default
+spec:
+  rules:
+  - host: tomcat.localhost
+    http:
+      paths:
+      - backend:
+          serviceName: tomcat
+          servicePort: 8080
