@@ -1,8 +1,8 @@
 package(default_visibility = ["//visibility:public"])
 
-load("//tools/appengine:appengine.bzl", "java_war")
 load("@io_bazel_rules_docker//docker:docker.bzl", "docker_build", "docker_push")
-load("@io_bazel_rules_docker//java:image.bzl", "war_image")
+#load("@io_bazel_rules_appengine//appengine:java_appengine.bzl", "java_war")
+load("//tools/appengine:appengine.bzl", "java_war")
 
 java_war(
     name = "myapp",

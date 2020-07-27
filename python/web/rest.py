@@ -19,9 +19,9 @@ class myHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
         # Send the html message
- 	self.data_string = str(self.rfile.read(int(self.headers['Content-Length'])))
- 	self.wfile.write(self.data_string)
- 	parsed_json = self.data_string
+        self.data_string = str(self.rfile.read(int(self.headers['Content-Length'])))
+        self.wfile.write(self.data_string)
+        parsed_json = self.data_string
         print( parsed_json)
         return
 

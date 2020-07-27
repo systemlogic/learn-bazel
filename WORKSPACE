@@ -1,46 +1,136 @@
 
+workspace(name = "learn_bazel")
+
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 
 git_repository(
-    name = "io_bazel_rules_docker",
-    remote = "https://github.com/bazelbuild/rules_docker.git",
-    tag = "v0.6.0",
+    name = "subpar",
+    remote = "https://github.com/google/subpar.git",
+    tag = "2.0.0",
 )
 
-load("@io_bazel_rules_docker//docker:docker.bzl", "docker_repositories", "docker_pull")
+git_repository(
+    name = "io_bazel_rules_k8s",
+    remote = "https://github.com/bazelbuild/rules_k8s.git",
+    tag = "v0.4",
+)
+
+load("@io_bazel_rules_k8s//k8s:k8s.bzl", "k8s_repositories","k8s_defaults")
+
+k8s_repositories()
+
+k8s_defaults(
+  name = "k8s_deploy",
+  kind = "deployment",
+#  cluster = "cedp-us-south",
+  cluster = "docker-for-desktop-cluster",
+)
+
+http_archive(
+    name = "io_bazel_rules_go",
+    sha256 = "ae6814b6a8e09e7a9f5b20c1add51ada6a2cc664d4659aeca2921c10674e24e3",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.22.9/rules_go-v0.22.9.tar.gz",
+        "https://github.com/bazelbuild/rules_go/releases/download/v0.22.9/rules_go-v0.22.9.tar.gz",
+    ],
+)
+
+load("@io_bazel_rules_go//go:deps.bzl", "go_rules_dependencies", "go_register_toolchains")
+
+go_rules_dependencies()
+
+go_register_toolchains()
+
+load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
+
+go_rules_dependencies()
+
+go_register_toolchains()
+
+
+http_archive(
+    name = "bazel_gazelle",
+    sha256 = "7fc87f4170011201b1690326e8c16c5d802836e3a0d617d8f75c3af2b23180c4",
+    urls = ["https://github.com/bazelbuild/bazel-gazelle/releases/download/0.18.2/bazel-gazelle-0.18.2.tar.gz"],
+)
+
+load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
+
+gazelle_dependencies()
+
+skylib_version = "0.8.0"
+
+
+http_archive(
+    name = "bazel_skylib",
+    url = "https://github.com/bazelbuild/bazel-skylib/archive/0.7.0.tar.gz",
+    sha256 = "2c62d8cd4ab1e65c08647eb4afe38f51591f43f7f0885e7769832fa137633dcb",
+)
+
+load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
+
+bazel_skylib_workspace()
+
+
+
+http_archive(
+    name = "io_bazel_rules_docker",
+    sha256 = "4521794f0fba2e20f3bf15846ab5e01d5332e587e9ce81629c7f96c793bb7036",
+    strip_prefix = "rules_docker-0.14.4",
+    urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v0.14.4/rules_docker-v0.14.4.tar.gz"],
+)
+
+load("@io_bazel_rules_docker//toolchains/docker:toolchain.bzl",
+    docker_toolchain_configure="toolchain_configure"
+)
+
+docker_toolchain_configure(
+  name = "docker_config",
+  client_config="/home/fyre/.config",
+)
+
 
 load(
-    "@io_bazel_rules_docker//java:image.bzl",
-    _java_image_repos = "repositories",
+    "@io_bazel_rules_docker//repositories:repositories.bzl",
+    container_repositories = "repositories",
 )
 
-_java_image_repos()
+container_repositories()
+load("@io_bazel_rules_docker//repositories:deps.bzl", container_deps = "deps")
 
-docker_repositories()
+container_deps()
 
-docker_pull(
+load(
+    "@io_bazel_rules_docker//container:container.bzl",
+    "container_pull",
+)
+
+container_pull(
     name = "jetty_image_base",
     registry = "index.docker.io",
     repository = "library/openjdk",
     tag = "8-jre",
 )
 
-docker_pull(
+container_pull(
     name = "tomcat",
     registry = "index.docker.io",
     repository = "library/tomcat",
     tag = "8",
 )
 
-docker_pull(
+container_pull(
     name = "python2",
     registry = "index.docker.io",
     repository = "library/python",
     tag = "2",
 )
 
-docker_pull(
+container_pull(
     name = "python3",
     registry = "index.docker.io",
     repository = "library/python",
@@ -48,6 +138,24 @@ docker_pull(
 )
 
 load("//tools:dependencies.bzl", "maven_dep")
+
+
+
+maven_dep(
+    name = "com_google_truth",
+    artifact = "com.google.truth:truth:1.0.1",
+)
+
+maven_dep(
+    name = "com_google_guava",
+    artifact = "com.google.guava:guava:28.1-jre",
+)
+
+maven_dep(
+    name = "com_googlecode_java_diff_utils",
+    artifact = "com.googlecode.java-diff-utils:diffutils:1.2",
+)
+
 
 maven_dep(
     name = "junit",
@@ -163,22 +271,11 @@ maven_dep( name = "spring_webmvc", artifact = "org.springframework:spring-webmvc
 maven_dep( name = "servlet_api", artifact = "javax.servlet:servlet-api:2.3")
 maven_dep( name = "spring_oxm_tiger", artifact = "org.springframework.ws:spring-oxm-tiger:1.5.4")
 maven_dep( name = "stax_api", artifact = "stax:stax-api:1.0.1")
+maven_dep( name = "javax_servlet_api", artifact = "javax.servlet:javax.servlet-api:4.0.1")
 
-git_repository(
-    name = "io_bazel_rules_k8s",
-    remote = "https://github.com/bazelbuild/rules_k8s.git",
-    tag = "v0.1",
+
+register_toolchains(
+    "@io_bazel_rules_docker//toolchains/docker:default_linux_toolchain",
+    "@io_bazel_rules_docker//toolchains/docker:default_windows_toolchain",
+    "@io_bazel_rules_docker//toolchains/docker:default_osx_toolchain",
 )
-
-load("@io_bazel_rules_k8s//k8s:k8s.bzl", "k8s_repositories","k8s_defaults")
-
-k8s_repositories()
-
-k8s_defaults(
-  name = "k8s_deploy",
-  kind = "deployment",
-#  cluster = "cedp-us-south",
-  cluster = "docker-for-desktop-cluster",
-)
-
-

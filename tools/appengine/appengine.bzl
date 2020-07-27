@@ -69,7 +69,7 @@ APP_ID. If not specified, it uses the default APP_ID provided in the application
 web.xml.
 """
 
-jar_filetype = FileType([".jar"])
+jar_filetype = [".jar"]
 
 def _add_file(in_file, output, path = None):
   output_path = output
@@ -131,7 +131,7 @@ def _war_impl(ctxt):
   transitive_deps = depset()
   for jar in ctxt.attr.jars:
     if hasattr(jar, "java"):  # java_library, java_import
-      transitive_deps += jar.java.transitive_runtime_deps
+      transitive_deps += jar[JavaInfo].transitive_runtime_deps
     elif hasattr(jar, "files"):  # a jar file
       transitive_deps += jar.files
 
