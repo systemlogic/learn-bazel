@@ -279,3 +279,23 @@ register_toolchains(
     "@io_bazel_rules_docker//toolchains/docker:default_windows_toolchain",
     "@io_bazel_rules_docker//toolchains/docker:default_osx_toolchain",
 )
+
+http_archive(
+    name = "rules_python",
+    url = "https://github.com/bazelbuild/rules_python/releases/download/0.0.2/rules_python-0.0.2.tar.gz",
+    strip_prefix = "rules_python-0.0.2",
+    sha256 = "b5668cde8bb6e3515057ef465a35ad712214962f0b3a314e551204266c7be90c",
+)
+
+
+load("@rules_python//python:pip.bzl", "pip_import", "pip_repositories")
+
+pip_repositories()
+
+pip_import(
+    name = "rest_deps",
+    requirements = "//python/web:requirements.txt",
+)
+
+load("@rest_deps//:requirements.bzl", _rest_deps_install = "pip_install")
+_rest_deps_install()
