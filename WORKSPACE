@@ -77,11 +77,10 @@ bazel_skylib_workspace()
 
 
 
-http_archive(
+git_repository(
     name = "io_bazel_rules_docker",
-    sha256 = "4521794f0fba2e20f3bf15846ab5e01d5332e587e9ce81629c7f96c793bb7036",
-    strip_prefix = "rules_docker-0.14.4",
-    urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v0.14.4/rules_docker-v0.14.4.tar.gz"],
+    tag = "v0.14.4",
+    remote = "https://github.com/bazelbuild/rules_docker.git",
 )
 
 load("@io_bazel_rules_docker//toolchains/docker:toolchain.bzl",
@@ -188,7 +187,7 @@ maven_dep(
 
 maven_dep(
     name = "testcontainers",
-    artifact = 'org.testcontainers:testcontainers:1.8.1',
+    artifact = 'org.testcontainers:testcontainers:1.14.3',
 )
 
 maven_dep(
@@ -272,6 +271,7 @@ maven_dep( name = "servlet_api", artifact = "javax.servlet:servlet-api:2.3")
 maven_dep( name = "spring_oxm_tiger", artifact = "org.springframework.ws:spring-oxm-tiger:1.5.4")
 maven_dep( name = "stax_api", artifact = "stax:stax-api:1.0.1")
 maven_dep( name = "javax_servlet_api", artifact = "javax.servlet:javax.servlet-api:4.0.1")
+maven_dep( name = "docker_java", artifact = "com.github.docker-java:docker-java:3.2.5")
 
 
 register_toolchains(

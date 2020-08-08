@@ -2,22 +2,3 @@ build --incompatible_disable_deprecated_attr_params=false --platforms=@io_bazel_
 
 query --incompatible_disable_deprecated_attr_params=false
 
-
-#build --noincompatible_remote_symlinks
-# The maximum number of seconds to wait for remote execution and cache calls
-#build --remote_timeout=10
-# The maximum number of attempts to retry a transient error. If set to 0, retries are disabled
-#build --remote_retries=1
-# falls back to standalone local execution strategy if remote execution fails
-#build --remote_local_fallback
-
-#build --experimental_extended_sanity_checks
-#build --incompatible_bzl_disallow_load_after_statement=false
-#build --incompatible_disable_deprecated_attr_params=false
-#build --incompatible_new_actions_api=false
-#build --incompatible_no_support_tools_in_action_inputs=false
-#build --incompatible_depset_is_not_iterable=false
-#build --incompatible_depset_union=false
-#build --host_force_python=PY2
-#build --build_python_zip=true --test_timeout=3600 
-#build:docker --cpu=k8

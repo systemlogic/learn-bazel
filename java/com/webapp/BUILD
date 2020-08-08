@@ -42,6 +42,7 @@ docker_push(
     registry = "index.docker.io",
     repository = "harshkarora/tomcat",
     tag = "dev",
+    tags = ["continuous_deployment"],
 )
 
 load("@k8s_deploy//:defaults.bzl", "k8s_deploy")
@@ -79,5 +80,6 @@ java_test(
         "@sun_jna//jar",
         "@testcontainers//jar",
         "@visible_assertions//jar",
+        "@docker_java//jar"
     ],
 )

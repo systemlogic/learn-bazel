@@ -27,7 +27,8 @@ func callJavaHello() (string, error) {
 		return "", err
 	}
 
-	jarPath := filepath.Join(dir, "java/com/sample/Hello_deploy.jar")
+	jarPath := filepath.Join(dir, "java/com/systemlogic/sample/Hello_deploy.jar")
+
 	byteOut, err := exec.Command("java", "-jar", jarPath).Output()
 	if err != nil {
 		return "", err

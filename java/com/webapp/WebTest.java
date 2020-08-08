@@ -19,10 +19,12 @@ public class WebTest {
   private String page = "index.html";
   private static final int PORT = 8080;
   private static String ipAddress ;
-  @ClassRule public static GenericContainer webContainer = new GenericContainer("harshkarora/tomcat:dev").withExposedPorts(PORT);
+  @ClassRule public static GenericContainer webContainer = new GenericContainer("harshkarora/tomcat:dev");
 
   @BeforeClass
   public static void initializeConnection() {
+    webContainer.start(); 
+    webContainer.addExposedPort(8080);
     ipAddress = webContainer.getContainerInfo().getNetworkSettings().getIpAddress();
     System.out.println("IP address = " + ipAddress.toString());
   }

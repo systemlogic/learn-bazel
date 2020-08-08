@@ -34,6 +34,7 @@ container_push(
     repository = "harshkarora/python",
     tag = "dev",
     format = "Docker",
+    tags = ["continuous_deployment"],
 )
 
 load("@k8s_deploy//:defaults.bzl", "k8s_deploy")
