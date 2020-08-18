@@ -23,3 +23,7 @@ bazel query 'kind(".*_library rule", rdeps(set(//cross-language/... //java/... /
 ```
 bazel query 'kind(rule, rdeps(set(//cross-language/... //java/... //javatests/...), set(//java/com/systemlogic/sample:Hello.java)) - set(//java/com/systemlogic/sample:Hello.java))'
 ```
+## Find list of changed files
+```
+git diff --name-only origin/master..origin/branchName
+```
