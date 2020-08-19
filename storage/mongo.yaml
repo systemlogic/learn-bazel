@@ -1,20 +1,22 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
  name: mongo
-# namespace: harora37  #replace with relevant namespace
 spec:
  serviceName: "mongo"
  replicas: 1
+ selector:
+    matchLabels:
+      app: mongo
  template:
    metadata:
      labels:
-       role: mongo
+       app: mongo
    spec:
      terminationGracePeriodSeconds: 10
      containers:
        - name: mongo
-         image: index.docker.io/library/mongo:3.7
+         image: index.docker.io/library/mongo:latest
          imagePullPolicy: Always
          ports:
            - containerPort: 27017
@@ -54,7 +56,7 @@ spec:
         timeoutSeconds: 10800
     type: ClusterIP
     selector:
-      role: mongo
+      app: mongo
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
