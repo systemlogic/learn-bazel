@@ -1,6 +1,11 @@
 To setup ingress locally, please refer
 https://github.com/jnewland/local-dev-with-docker-for-mac-kubernetes
 
+or simply rule
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.34.1/deploy/static/provider/cloud/deploy.yaml
+```
+
 once installed, please add following entry
 ```
 git_repository(
