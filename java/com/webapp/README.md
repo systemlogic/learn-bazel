@@ -37,4 +37,12 @@ bazel run :dev.delete
 To Describe the yaml
 bazel run :dev.describe
 
+# To secure website using selfsign certificate
+```
+openssl genrsa -out ca.key 2048
+COMMON_NAME=localhost
+openssl req -x509 -new -nodes -key ca.key -subj "/CN=${COMMON_NAME}" -days 3650 -reqexts v3_req -extensions v3_ca -out ca.crt
+kubectl create secret tls key-pair --cert=ca.crt --key=ca.key --namespace=default
+```
+
 
