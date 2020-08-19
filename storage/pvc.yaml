@@ -4,9 +4,9 @@ metadata:
   name: pv-claim-harora37
 #  namespace: harora37
 spec:
+  storageClassName: manual
   accessModes:
     - ReadWriteOnce
-  volumeMode: Block
   resources:
     requests:
-      storage: 4Gi
+      storage: 3Gi

@@ -27,7 +27,7 @@ k8s_defaults(
   name = "k8s_deploy",
   kind = "deployment",
 #  cluster = "cedp-us-south",
-  cluster = "docker-for-desktop-cluster",
+  cluster = "docker-desktop",
 )
 
 http_archive(
