@@ -60,3 +60,7 @@ spec:
       - backend:
           serviceName: tomcat
           servicePort: 8080
+  tls:
+  - hosts:
+    - tomcat.localhost
+    secretName: some-key-pair
