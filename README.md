@@ -69,7 +69,7 @@ bazel test `bazel query 'kind(".*_test rule", rdeps(set(//...), set(//java/com/s
 ```
 bazel query 'kind(".*_test rule", rdeps(set(//...), set(//java/com/systemlogic/sample:Hello.java java/com/webapp/deployment.yaml  java/com/webapp/index.html )) except set(//java/com/webapp:WebTest) )'
 
-echo "OR simply tag the test case with skip_test or any custome string. skip_test is used in this perticular case."
+echo "OR simply tag the test case with skip_test or any custome string. skip_test is used in this particular case."
 
 bazel query 'kind(".*_test rule", rdeps(set(//...), set(//java/com/systemlogic/sample:Hello.java java/com/webapp/deployment.yaml  java/com/webapp/index.html )) except attr(tags, "skip_test", kind(".*_test rule", rdeps(set(//...), set(//java/com/systemlogic/sample:Hello.java java/com/webapp/deployment.yaml  java/com/webapp/index.html )))) )'
 
@@ -90,10 +90,9 @@ bazel query 'kind(".*_binary rule", rdeps(set(//...), set(//java/com/systemlogic
 ## List of affected rules
 ```
 bazel query 'kind("rule", rdeps(//..., set(//java/com/systemlogic/sample:Hello.java java/com/webapp/deployment.yaml  java/com/webapp/index.html)) )' --output label_kind
-
 echo "Please note: appengine_war_base, container_image_, and _k8s_object are not in category of binary, library, test case"
 ```
-## List of targets that should not be run at the time of CI lets sat image creation and k8s deployment
+## List of targets that should not be run at the time of CI, includes  image creation and k8s deployment.
 
 ```
 bazel query 'kind("_k8s_object|_k8s_object_describe|_run_all|_k8s_object_apply|_reversed", rdeps(//..., set(//java/com/systemlogic/sample:Hello.java java/com/webapp/deployment.yaml  java/com/webapp/index.html))) '
@@ -120,7 +119,7 @@ echo "Complete pipeline is setup without using external tool like jenkins, travi
 ## Find list of changed files
 ```
 git diff --name-only origin/master..origin/branchName
-echo "git command will help in identifying list of files added/changed in perticular PR. This can save developer time to merge the code."
+echo "git command will help in identifying list of files added/changed in particular PR. This can save developers time to merge the code."
 ```
 
 ## Action Query
