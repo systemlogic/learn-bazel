@@ -2,3 +2,15 @@ build --incompatible_disable_deprecated_attr_params=false --platforms=@io_bazel_
 
 query --incompatible_disable_deprecated_attr_params=false
 
+
+# Stores the cache in location specified rather, default ~/.cache/bazel
+# build --repository_cache=/.repo_cache          
+
+# Bazel remote cache on HTTP location. 
+# build --remote_http_cache=http://$CIRRUS_HTTP_CACHE_HOST 
+
+# remote cache on gRPC and remote executors 
+# https://github.com/bazelbuild/bazel-buildfarm
+
+# maven to bazel conversion.
+# https://www.wix.engineering/post/introducing-exodus-easily-migrate-from-maven-to-bazel

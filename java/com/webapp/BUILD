@@ -82,4 +82,5 @@ java_test(
         "@visible_assertions//jar",
         "@docker_java//jar"
     ],
+    tags = ["skip_test"]
 )

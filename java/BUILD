@@ -13,8 +13,6 @@ java_test(
         "HelloTest.java",
     ],
     deps = [
-        "@abbot//jar",
         "@junit//jar",
-        "@netty//jar",
     ],
 )
