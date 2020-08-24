@@ -32,6 +32,7 @@ docker_build(
     symlinks = {
         "/usr/local/tomcat/webapps/myapp.war": "/root/myapp.war",
     },
+    tags = ["continuous_deployment"],
 )
 
 load("@io_bazel_rules_docker//docker:docker.bzl", "docker_push")
@@ -42,7 +43,7 @@ docker_push(
     registry = "index.docker.io",
     repository = "harshkarora/tomcat",
     tag = "dev",
-    tags = ["continuous_deployment"],
+    tags = ["cd"],
 )
 
 load("@k8s_deploy//:defaults.bzl", "k8s_deploy")
@@ -62,6 +63,8 @@ k8s_objects(
     objects = [
         ":dev",
     ],
+
+    tags = ["continuous_deployment",],
 )
 
 java_test(
@@ -82,5 +85,5 @@ java_test(
         "@visible_assertions//jar",
         "@docker_java//jar"
     ],
-    tags = ["skip_test"]
+    tags = ["skip_test", "manual"]
 )

@@ -65,19 +65,18 @@ bazel query 'kind(".*_test rule", rdeps(set(//...), set(//java/com/systemlogic/s
 
 bazel test `bazel query 'kind(".*_test rule", rdeps(set(//...), set(//java/com/systemlogic/sample:Hello.java java/com/webapp/deployment.yaml  java/com/webapp/index.html )))'`
 ```
-## List of affected test cases except failed one or compute intensive.
+## List of affected test cases except failed ones.
 ```
 bazel query 'kind(".*_test rule", rdeps(set(//...), set(//java/com/systemlogic/sample:Hello.java java/com/webapp/deployment.yaml  java/com/webapp/index.html )) except set(//java/com/webapp:WebTest) )'
 
 echo "OR simply tag the test case with skip_test or any custome string. skip_test is used in this perticular case."
 
 bazel query 'kind(".*_test rule", rdeps(set(//...), set(//java/com/systemlogic/sample:Hello.java java/com/webapp/deployment.yaml  java/com/webapp/index.html )) except attr(tags, "skip_test", kind(".*_test rule", rdeps(set(//...), set(//java/com/systemlogic/sample:Hello.java java/com/webapp/deployment.yaml  java/com/webapp/index.html )))) )'
-//javatests/com/systemlogic/sample:HelloTest
 
 ```
-## Run test case in serial mode
-Please use exclusive tag in tags attribute.
-
+## Run compute intensive test case in serial mode
+1. Please use exclusive tag in tags attribute provided by bazel.
+1. manual keyword will exclude the target from expansion of target pattern.
 
 ## List all affected library rules
 ```
@@ -94,12 +93,34 @@ bazel query 'kind("rule", rdeps(//..., set(//java/com/systemlogic/sample:Hello.j
 
 echo "Please note: appengine_war_base, container_image_, and _k8s_object are not in category of binary, library, test case"
 ```
+## List of targets that should not be run at the time of CI lets sat image creation and k8s deployment
+
+```
+bazel query 'kind("_k8s_object|_k8s_object_describe|_run_all|_k8s_object_apply|_reversed", rdeps(//..., set(//java/com/systemlogic/sample:Hello.java java/com/webapp/deployment.yaml  java/com/webapp/index.html))) '
+
+echo "From main query subtract the docker and k8s targets."
+
+bazel query 'kind("rule", rdeps(//..., set(//java/com/systemlogic/sample:Hello.java java/com/webapp/deployment.yaml  java/com/webapp/index.html))) - kind("_k8s_object|_k8s_object_describe|_run_all|_k8s_object_apply|_reversed", rdeps(//..., set(//java/com/systemlogic/sample:Hello.java java/com/webapp/deployment.yaml  java/com/webapp/index.html))) '
 
 
+bazel query 'kind("rule", rdeps(//..., set(//java/com/systemlogic/sample:Hello.java java/com/webapp/deployment.yaml  java/com/webapp/index.html))) except ( kind("_k8s_object|_k8s_object_describe|_run_all|_k8s_object_apply|_reversed", rdeps(//..., set(//java/com/systemlogic/sample:Hello.java java/com/webapp/deployment.yaml  java/com/webapp/index.html))) )'
+
+```
+
+## List of targets that should run as a part of CD process. 
+```
+bazel query 'kind("rule", attr(tags, "cd", rdeps(//..., set(//java/com/systemlogic/sample:Hello.java java/com/webapp/deployment.yaml  java/com/webapp/index.html))))'
+echo "problem with above query is, tag is attached to macro not with the rule. To get rid of this problem, I have to download"
+echo "k8s repository on local mark the apply rule as cd or continuous_deployment."
+echo "Ref:  https://github.com/bazelbuild/rules_k8s/blob/master/k8s/objects.bzl#L102"
+bazel run `bazel query 'kind("rule", attr(tags, "cd", rdeps(//..., set(//java/com/systemlogic/sample:Hello.java java/com/webapp/deployment.yaml  java/com/webapp/index.html))))'`
+echo "Complete pipeline is setup without using external tool like jenkins, travis, buildkte"
+```
 
 ## Find list of changed files
 ```
 git diff --name-only origin/master..origin/branchName
+echo "git command will help in identifying list of files added/changed in perticular PR. This can save developer time to merge the code."
 ```
 
 ## Action Query
