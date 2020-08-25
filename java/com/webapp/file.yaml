@@ -14,9 +14,9 @@ spec:
         app: tomcat
     spec:
       containers:
-      - name: tomcat
-        image: harshkarora/tomcat:dev
+      - image: harshkarora/tomcat:dev
         imagePullPolicy: Always
+        name: tomcat
         ports:
         - containerPort: 8080
         resources:
@@ -54,7 +54,7 @@ metadata:
   namespace: default
 spec:
   rules:
-  - host: tomcat.papaw1.fyre.ibm.com
+  - host: tomcat.localhost
     http:
       paths:
       - backend:
@@ -62,5 +62,5 @@ spec:
           servicePort: 8080
   tls:
   - hosts:
-    - tomcat.papaw1.fyre.ibm.com
+    - tomcat.localhost
     secretName: some-key-pair

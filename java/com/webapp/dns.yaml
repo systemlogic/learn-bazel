@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:  
+  name: coredns-custom  
+  namespace: kube-system 
+data:
+  papaw1.server: | 
+    papaw1.fyre.ibm.com {
+      forward . 127.0.0.1
+    }
