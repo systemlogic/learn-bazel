@@ -8,7 +8,6 @@ load("//tools:dependencies.bzl", "maven_dep")
 
 def define_java_dependencies():
     for dep in java_dependencies:
-        print(dep)
         name = dep['name']
         if native.existing_rule(name):
           print('Warning: maven dependency already exists: ' + name)
