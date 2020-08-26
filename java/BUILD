@@ -13,6 +13,6 @@ java_test(
         "HelloTest.java",
     ],
     deps = [
-        "@junit//jar",
+        "//external:junit-jar",
     ],
 )

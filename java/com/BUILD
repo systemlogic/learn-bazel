@@ -6,6 +6,6 @@ java_library(
         "HelloWorld.java",
     ],
     deps = [
-        "@javax_servlet_api//jar",
+        "//external:javax_servlet_api-jar",
     ],
 )

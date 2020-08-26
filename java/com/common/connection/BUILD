@@ -7,8 +7,8 @@ java_library(
         "//java/com/common/mapper",
         "//java/com/common/mapper:emp_dept.jar",
         "//java/com/common/model",
-        "@spring_beans//jar",
-        "@spring_context//jar",
-        "@spring_jdbc//jar",
+        "//external:spring_beans-jar",
+        "//external:spring_context-jar",
+        "//external:spring_jdbc-jar",
     ],
 )

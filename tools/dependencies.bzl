@@ -1,25 +1,8 @@
 # Generate external dependencies in the WORKSPACE file
+load("@bazel_tools//tools/build_defs/repo:java.bzl", "java_import_external")
 
-def maven_dep(artifact,  name = None, server_url = "https://repo.maven.apache.org/maven2/"):
-    """Maven dependency macro to produce //external:<name>-jar targets.
-    This rule is used to create an //external:<name>-jar target based
-    on a maven artifact.  A name can be manually specified or inferred
-    by the second field of the artifact.  For example, if the artifact
-    is "com.google.guava:guava:21.0", then the name will match
-    "guava".  The generated target will be //external:guava-jar.
-    If a name contains periods or dashes, they will automatically be
-    replaced by underscores.  For example, the artifact
-    "com.google.auto.value:auto-value:1.3" produced the target
-    //external:auto_value-jar.
-    Args:
-        artifact: string, the colon separated maven artifact
-        name: string or None, the optional name for the rule
-            overridding the inferred name from the artifact.  The
-            generated //external rule will always end with a '-jar'.
-        server_url: string or None, the optional url for the Maven
-            server to download this artifact.  Otherwise, the default
-            Maven server is used.
-        license: string, a value should be selected from list above
+def maven_dep(artifact, sha256,  name = None, server_url = "https://repo.maven.apache.org/maven2/"):
+    """Comments goes here.
     """
     splits = artifact.split(':')
     if len(splits) != 3:
@@ -30,21 +13,22 @@ def maven_dep(artifact,  name = None, server_url = "https://repo.maven.apache.or
     if '-' in name or '.' in name:
         fail("Invalid name, '" + name + "'.  Can not have a dash or period.")
 
-    server = None
-    if server_url != None:
-        server = name + '_server'
-        native.maven_server(
-            name = server,
-            url = server_url
-        )
 
-    native.maven_jar(
+
+
+    java_artifact = "{}/{}/{}/{}-{}.jar".format(splits[0].replace(".","/"), splits[1], splits[2], splits[1], splits[2])
+
+    java_import_external(
         name = name,
-        artifact = artifact,
-        server = server,
+        jar_sha256 = sha256,
+        licenses = ["notice"],
+        jar_urls = [
+        "{}/{}".format(server_url, java_artifact),
+        ],
     )
-
+    print("@{0}")
+    print("@{1}")
     native.bind(
         name = name + '-jar',
-        actual = '@{0}//jar'.format(name)
-)
+        actual = '//external:@{0}'.format(name)
+    )

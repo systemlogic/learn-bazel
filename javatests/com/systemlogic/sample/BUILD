@@ -3,8 +3,8 @@ java_test(
     srcs = ["HelloTest.java"],
     deps = [
         "//java/com/systemlogic/sample:hello",
-        "@com_google_truth//jar",
-        "@com_google_guava//jar",
-        "@com_googlecode_java_diff_utils//jar"
+        "//external:com_google_truth-jar",
+        "//external:com_google_guava-jar",
+        "//external:com_googlecode_java_diff_utils-jar"
     ]
 )

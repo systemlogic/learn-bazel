@@ -1,10 +1,11 @@
 # A target to ensure the servlet-api is not linked in the webapp.
-java_library(
-    name = "javax.servlet.api",
-    neverlink = 1,
-    visibility = ["//visibility:public"],
-    exports = ["@javax_servlet_api//jar"],
-)
+
+#java_library(
+#    name = "javax.servlet.api",
+#    neverlink = 1,
+#    visibility = ["//visibility:public"],
+#    exports = ["//external:javax_servlet_api-jar"],
+#)
 
 filegroup(
     name = "runner_template",

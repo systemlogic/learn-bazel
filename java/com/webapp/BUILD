@@ -1,5 +1,6 @@
 package(default_visibility = ["//visibility:public"])
-
+exports_files(["dns.yaml"])
+exports_files(["file.yaml"])
 load("@io_bazel_rules_docker//docker:docker.bzl", "docker_build")
 load("@io_bazel_rules_docker//java:image.bzl", "war_image")
 load("//tools/appengine:appengine.bzl", "java_war")
@@ -13,15 +14,15 @@ java_war(
     data_path = "",
     jars = [
         "//java/com:HelloWorld",
-        "@javax_servlet//jar",
-        "@taglibs_standard_spec//jar",
-        "@taglibs_standard_impl//jar",
+        "//external:javax_servlet-jar",
+        "//external:taglibs_standard_spec-jar",
+        "//external:taglibs_standard_impl-jar",
     ],
 )
 
 docker_build(
     name = "docker",
-    base = "@tomcat//image",
+    base ="@tomcat//image",
     directory = "/root",
     files = [
         ":myapp",
@@ -72,18 +73,18 @@ java_test(
     srcs = ["WebTest.java"],
     data = ["index.html"],
     deps = [
-        "@commons_compress//jar",
-        "@duct_tape//jar",
-        "@guava//jar",
-        "@junit//jar",
-        "@log4j//jar",
-        "@slf4j_api//jar",
-        "@slf4j_ext//jar",
-        "@slf4j_log4j12//jar",
-        "@sun_jna//jar",
-        "@testcontainers//jar",
-        "@visible_assertions//jar",
-        "@docker_java//jar"
+       "//external:commons_compress-jar",
+       "//external:duct_tape-jar",
+       "//external:guava-jar",
+       "//external:junit-jar",
+       "//external:log4j-jar",
+       "//external:slf4j_api-jar",
+       "//external:slf4j_ext-jar",
+       "//external:slf4j_log4j12-jar",
+       "//external:sun_jna-jar",
+       "//external:testcontainers-jar",
+       "//external:visible_assertions-jar",
+       "//external:docker_java-jar"
     ],
     tags = ["skip_test", "manual"]
 )
