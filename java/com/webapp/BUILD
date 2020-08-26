@@ -86,5 +86,6 @@ java_test(
        "//external:visible_assertions-jar",
        "//external:docker_java-jar"
     ],
-    tags = ["skip_test", "manual"]
+    tags = ["skip_test",]
+    # add manual tag to skip from test //...
 )

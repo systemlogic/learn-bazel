@@ -69,8 +69,6 @@ APP_ID. If not specified, it uses the default APP_ID provided in the application
 web.xml.
 """
 
-jar_filetype = [".jar"]
-
 def _add_file(in_file, output, path = None):
   output_path = output
   input_path = in_file.path
@@ -135,9 +133,15 @@ def _war_impl(ctxt):
     elif hasattr(jar, "files"):  # a jar file
       transitive_deps += jar.files
 
-  for dep in transitive_deps:
-    cmd += _add_file(dep, build_output + "/WEB-INF/lib")
-    inputs.append(dep)
+  dependencies = {}
+  for dep in transitive_deps.to_list():
+    dependency = dep.path.split('/')[-1]
+    if dependencies.get(dependency, default=None) == None:
+      cmd += _add_file(dep, build_output + "/WEB-INF/lib")
+      inputs.append(dep)
+      dependencies[dependency] = "True"
+    else:
+      print("Found duplicate dependency in bazel graph with name : ", dependency)
 
   for jar in ctxt.files._appengine_deps:
     cmd += _add_file(jar, build_output + "/WEB-INF/lib")
@@ -169,7 +173,7 @@ def _war_impl(ctxt):
 #    fail("could not find appengine files",
 #         attr = str(ctxt.attr._appengine_sdk.label))
 
-  classpath = ["${JAVA_RUNFILES}/%s" % jar.short_path for jar in transitive_deps]
+  classpath = ["${JAVA_RUNFILES}/%s" % jar.short_path for jar in transitive_deps.to_list()]
 #  classpath += [
 #      "${JAVA_RUNFILES}/%s" % jar.short_path
 #      for jar in ctxt.files._appengine_deps
@@ -196,7 +200,7 @@ def _war_impl(ctxt):
       substitutions = substitutions)
 
   runfiles = ctxt.runfiles(files = [war, executable]
-                           + list(transitive_deps)
+                           + list(transitive_deps.to_list())
                            + inputs
 #                           + ctxt.files._appengine_sdk
                            + [ctxt.file._java, ctxt.file._zipper])
@@ -228,7 +232,7 @@ appengine_war_base = rule(
             default = [],
         ),
         "jars": attr.label_list(
-            allow_files = jar_filetype,
+            allow_files = [".jar"],
             mandatory = True,
         ),
         "data": attr.label_list(allow_files = True),
@@ -267,7 +271,7 @@ appengine_ear_base = rule(
             default = [],
         ),
         "jars": attr.label_list(
-            allow_files = jar_filetype,
+            allow_files = [".jar"],
             mandatory = True,
         ),
         "data": attr.label_list(allow_files = True),

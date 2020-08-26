@@ -137,8 +137,7 @@ container_pull(
 )
 
 load("//tools:maven_repository.bzl", "define_java_dependencies")
-
-
+define_java_dependencies()
 
 register_toolchains(
     "@io_bazel_rules_docker//toolchains/docker:default_linux_toolchain",

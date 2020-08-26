@@ -5,7 +5,7 @@ java_library(
     srcs = glob(["*.java"]),
     deps = [
         ":emp_dept.jar",
-        "-java/com/common/model",
+        "//java/com/common/model",
         "//external:activation-jar",
         "//external:aopalliance-jar",
         "//external:commons_dbcp-jar",
