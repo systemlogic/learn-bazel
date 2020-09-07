@@ -7,6 +7,6 @@ public class Hello {
     return String.format("Hello %s, greetings sent from java src code", name);
   }
   public static void main(String[] args) {
-    System.out.println(sayHello("IBM"));
+    System.out.println(sayHello("Systemlogic"));
   }
 }

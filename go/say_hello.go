@@ -7,6 +7,6 @@ import(
 )
 
 func main() {
-  fmt.Println(A.SayHello("IBM"))
-  fmt.Println(B.SayHello("IBM"))
+  fmt.Println(A.SayHello("Systemlogic"))
+  fmt.Println(B.SayHello("Systemlogic"))
 }

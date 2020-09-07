@@ -9,7 +9,7 @@ import com.systemlogic.sample.Hello;
 public class HelloTest {
   @Test
   public void testGreetMessage() {
-    String expectedOutput = "Hello IBM, greetings sent from java src code";
-    assertThat(Hello.sayHello("IBM")).isEqualTo(expectedOutput);
+    String expectedOutput = "Hello Systemlogic, greetings sent from java src code";
+    assertThat(Hello.sayHello("Systemlogic")).isEqualTo(expectedOutput);
   }
 }
