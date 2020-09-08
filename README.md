@@ -137,6 +137,8 @@ genhtml -o coverage `bazel coverage  javatests/com/systemlogic/sample:HelloTest 
 ```
 and now look into coverage folder.
 
+There is other custom rules to do so. https://github.com/jinfwhuang/bazel-examples
+
 
 ## Action Query
 Interested in the properties of the Actions/Artifacts generated.
