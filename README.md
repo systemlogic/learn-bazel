@@ -74,6 +74,10 @@ echo "OR simply tag the test case with skip_test or any custome string. skip_tes
 bazel query 'kind(".*_test rule", rdeps(set(//...), set(//java/com/systemlogic/sample:Hello.java java/com/webapp/deployment.yaml  java/com/webapp/index.html )) except attr(tags, "skip_test", kind(".*_test rule", rdeps(set(//...), set(//java/com/systemlogic/sample:Hello.java java/com/webapp/deployment.yaml  java/com/webapp/index.html )))) )'
 
 ```
+
+
+
+
 ## Run compute intensive test case in serial mode
 1. Please use exclusive tag in tags attribute provided by bazel.
 1. manual keyword will exclude the target from expansion of target pattern.
@@ -121,6 +125,18 @@ echo "Complete pipeline is setup without using external tool like jenkins, travi
 git diff --name-only origin/master..origin/branchName
 echo "git command will help in identifying list of files added/changed in particular PR. This can save developers time to merge the code."
 ```
+
+## Compute coverage
+```
+bazel coverage //...
+bazel coverage //javatests/com/systemlogic/sample:HelloTest
+genhtml -o coverage /home/fyre/.cache/bazel/_bazel_fyre/14bd4613f8913871890b0e8218348648/execroot/learn_bazel/bazel-out/k8-fastbuild/testlogs/javatests/com/systemlogic/sample/HelloTest/coverage.dat
+
+echo "OR"
+genhtml -o coverage `bazel coverage  javatests/com/systemlogic/sample:HelloTest | grep coverage.dat`
+```
+and now look into coverage folder.
+
 
 ## Action Query
 Interested in the properties of the Actions/Artifacts generated.

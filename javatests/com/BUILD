@@ -5,6 +5,7 @@ java_test(
     ],
     deps = [
         "//external:junit-jar",
-        "//java:helloLib"
+        "//external:visible_assertions-jar",
+        "//java/com:helloLib"
     ],
 )

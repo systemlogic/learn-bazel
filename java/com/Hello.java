@@ -1,3 +1,5 @@
+package com;
+
 class Hello{
   Integer value ;
   Hello(Integer value){
