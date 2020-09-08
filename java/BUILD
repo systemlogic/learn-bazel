@@ -1,18 +1,13 @@
 java_binary(
     name = "Hello",
+    main_class = "Hello",
+    runtime_deps = [":helloLib"],
+)
+
+java_library(
+				name = "helloLib",
     srcs = [
         ":Hello.java",
     ],
-    main_class = "Hello",
-)
-
-java_test(
-    name = "HelloTest",
-    srcs = [
-        "Hello.java",
-        "HelloTest.java",
-    ],
-    deps = [
-        "//external:junit-jar",
-    ],
+    visibility = ["//javatests:__pkg__"], 
 )
