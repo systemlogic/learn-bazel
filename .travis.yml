@@ -1,0 +1,17 @@
+language: java
+dist: trusty
+sudo: required
+services:
+- docker
+before_install:
+- git checkout master
+- git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+- git fetch --force origin refs/notes/*:refs/notes/*
+- git fetch
+- git branch -r
+- git checkout $TRAVIS_PULL_REQUEST_BRANCH
+- git pull origin  $TRAVIS_PULL_REQUEST_BRANCH
+install: true
+script:
+- source environment.bash
+- bazel build //...
