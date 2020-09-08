@@ -11,6 +11,7 @@ before_install:
 - git branch -r
 - git checkout $TRAVIS_PULL_REQUEST_BRANCH
 - git pull origin  $TRAVIS_PULL_REQUEST_BRANCH
+- git diff --name-only origin/master..origin/$TRAVIS_PULL_REQUEST_BRANCH
 install: true
 script:
 - source environment.bash
