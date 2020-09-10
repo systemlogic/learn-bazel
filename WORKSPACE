@@ -1,11 +1,8 @@
-
 workspace(name = "learn_bazel")
-
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-
 
 git_repository(
     name = "subpar",
@@ -19,15 +16,15 @@ git_repository(
     tag = "v0.4",
 )
 
-load("@io_bazel_rules_k8s//k8s:k8s.bzl", "k8s_repositories","k8s_defaults")
+load("@io_bazel_rules_k8s//k8s:k8s.bzl", "k8s_defaults", "k8s_repositories")
 
 k8s_repositories()
 
 k8s_defaults(
-  name = "k8s_deploy",
-  kind = "deployment",
-#  cluster = "cedp-us-south",
-  cluster = "docker-desktop",
+    name = "k8s_deploy",
+    #  cluster = "cedp-us-south",
+    cluster = "docker-desktop",
+    kind = "deployment",
 )
 
 http_archive(
@@ -39,7 +36,7 @@ http_archive(
     ],
 )
 
-load("@io_bazel_rules_go//go:deps.bzl", "go_rules_dependencies", "go_register_toolchains")
+load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
 
 go_rules_dependencies()
 
@@ -50,7 +47,6 @@ load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_depe
 go_rules_dependencies()
 
 go_register_toolchains()
-
 
 http_archive(
     name = "bazel_gazelle",
@@ -64,34 +60,31 @@ gazelle_dependencies()
 
 skylib_version = "0.8.0"
 
-
 http_archive(
     name = "bazel_skylib",
-    url = "https://github.com/bazelbuild/bazel-skylib/archive/0.7.0.tar.gz",
     sha256 = "2c62d8cd4ab1e65c08647eb4afe38f51591f43f7f0885e7769832fa137633dcb",
+    url = "https://github.com/bazelbuild/bazel-skylib/archive/0.7.0.tar.gz",
 )
 
 load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
 
 bazel_skylib_workspace()
 
-
-
 git_repository(
     name = "io_bazel_rules_docker",
-    tag = "v0.14.4",
     remote = "https://github.com/bazelbuild/rules_docker.git",
+    tag = "v0.14.4",
 )
 
-load("@io_bazel_rules_docker//toolchains/docker:toolchain.bzl",
-    docker_toolchain_configure="toolchain_configure"
+load(
+    "@io_bazel_rules_docker//toolchains/docker:toolchain.bzl",
+    docker_toolchain_configure = "toolchain_configure",
 )
 
 docker_toolchain_configure(
-  name = "docker_config",
-  client_config="/home/fyre/.docker/",
+    name = "docker_config",
+    client_config = "/home/fyre/.docker/",
 )
-
 
 load(
     "@io_bazel_rules_docker//repositories:repositories.bzl",
@@ -99,6 +92,7 @@ load(
 )
 
 container_repositories()
+
 load("@io_bazel_rules_docker//repositories:deps.bzl", container_deps = "deps")
 
 container_deps()
@@ -137,6 +131,7 @@ container_pull(
 )
 
 load("//tools:maven_repository.bzl", "define_java_dependencies")
+
 define_java_dependencies()
 
 register_toolchains(
@@ -147,11 +142,10 @@ register_toolchains(
 
 http_archive(
     name = "rules_python",
-    url = "https://github.com/bazelbuild/rules_python/releases/download/0.0.2/rules_python-0.0.2.tar.gz",
-    strip_prefix = "rules_python-0.0.2",
     sha256 = "b5668cde8bb6e3515057ef465a35ad712214962f0b3a314e551204266c7be90c",
+    strip_prefix = "rules_python-0.0.2",
+    url = "https://github.com/bazelbuild/rules_python/releases/download/0.0.2/rules_python-0.0.2.tar.gz",
 )
-
 
 load("@rules_python//python:pip.bzl", "pip_import", "pip_repositories")
 
@@ -163,4 +157,5 @@ pip_import(
 )
 
 load("@rest_deps//:requirements.bzl", _rest_deps_install = "pip_install")
+
 _rest_deps_install()
