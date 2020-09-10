@@ -2,6 +2,7 @@ build --incompatible_disable_deprecated_attr_params=false --platforms=@io_bazel_
 
 query --incompatible_disable_deprecated_attr_params=false
 
+build --remote_executor=grpc://uriah1.fyre.ibm.com:8090
 
 # Stores the cache in location specified rather, default ~/.cache/bazel
 # build --repository_cache=/.repo_cache          
@@ -11,6 +12,7 @@ query --incompatible_disable_deprecated_attr_params=false
 
 # remote cache on gRPC and remote executors 
 # https://github.com/bazelbuild/bazel-buildfarm
+# build --remote_executor=grpc://<machine>:8980
 
 # maven to bazel conversion.
 # https://www.wix.engineering/post/introducing-exodus-easily-migrate-from-maven-to-bazel

@@ -1,4 +1,4 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_binary")
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 
 # label would be //go:lib-hello
 go_library(
@@ -8,7 +8,7 @@ go_library(
     deps = [
         "//go/A:lib-a",
         "//go/B:lib-b",
-    ]
+    ],
 )
 
 # label would be //go:say-hello

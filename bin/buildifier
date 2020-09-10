@@ -37,7 +37,7 @@ ONE_HOUR = 1 * 60 * 60
 
 LATEST_PATTERN = re.compile(r"latest(-(?P<offset>\d+))?$")
 
-USE_BAZEL_VERSION = "3.2.0"
+USE_BAZEL_VERSION = "3.0.0"
 
 
 def find_workspace_root(root=None):
@@ -133,7 +133,7 @@ def determine_bazel_filename(version):
         fileName = ".mac"
     elif operating_system == "windows":
         fileName = ".exe"
-    return fileName
+    return "buildifier{}".format(fileName)
 
 
 def normalized_machine_arch_name():
@@ -147,7 +147,7 @@ def determine_url(version, bazel_filename):
     # Split version into base version and optional additional identifier.
     # Example: '0.19.1' -> ('0.19.1', None), '0.20.0rc1' -> ('0.20.0', 'rc1')
     (version, rc) = re.match(r"(\d*\.\d*(?:\.\d*)?)(rc\d)?", version).groups()
-    return "https://github.com/bazelbuild/buildtools/releases/download/{}/buildifier{}".format(
+    return "https://github.com/bazelbuild/buildtools/releases/download/{}/{}".format(
         version, bazel_filename
     )
 
