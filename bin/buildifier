@@ -37,7 +37,7 @@ ONE_HOUR = 1 * 60 * 60
 
 LATEST_PATTERN = re.compile(r"latest(-(?P<offset>\d+))?$")
 
-USE_BAZEL_VERSION = "3.0.0"
+USE_BAZEL_VERSION = "3.2.0"
 
 
 def find_workspace_root(root=None):
@@ -155,7 +155,7 @@ def determine_url(version, bazel_filename):
 def download_bazel_into_directory(version, directory):
     bazel_filename = determine_bazel_filename(version)
     url = determine_url(version, bazel_filename)
-    destination_path = os.path.join(directory, bazel_filename)
+    destination_path = "{}-{}".format(os.path.join(directory, bazel_filename), version)
     if not os.path.exists(destination_path):
         sys.stderr.write("Downloading {}...\n".format(url))
         with closing(urlopen(url)) as response:
