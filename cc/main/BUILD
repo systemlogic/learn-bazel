@@ -9,6 +9,6 @@ cc_binary(
     srcs = ["hello-world.cc"],
     deps = [
         ":hello-greet",
-        "//cpp/lib:hello-time",
+        "//cc/lib:hello-time",
     ],
 )

@@ -2,5 +2,5 @@ cc_library(
     name = "hello-time",
     srcs = ["hello-time.cc"],
     hdrs = ["hello-time.h"],
-    visibility = ["//cpp/main:__pkg__"],
+    visibility = ["//cc/main:__pkg__"],
 )
