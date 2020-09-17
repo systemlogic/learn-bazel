@@ -2,7 +2,7 @@ build --incompatible_disable_deprecated_attr_params=false --platforms=@io_bazel_
 
 query --incompatible_disable_deprecated_attr_params=false
 
-build --remote_executor=grpc://uriah1.fyre.ibm.com:8090
+#build --remote_executor=grpc://uriah1.fyre.ibm.com:8090
 
 # Stores the cache in location specified rather, default ~/.cache/bazel
 # build --repository_cache=/.repo_cache          
