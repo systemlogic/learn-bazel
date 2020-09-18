@@ -15,10 +15,12 @@ install: true
 script:
 - source environment.bash
 - changedFileSet=$(git diff --name-only origin/master..origin/${TRAVIS_PULL_REQUEST_BRANCH} )
-- echo "Changed files are ${changedFileSet}" 
+- echo "Changed files are :"
+- echo $changedFileSet 
 - testTargets=$(bazel query "kind('.*_test rule', rdeps(set(//...), set(${changedFileSet}) ))")
 - echo "Following targets will be tested: ${testTargets}"
 - bazel test $testTargets
 - buildTargets=$(bazel query "kind('_library|_binary', rdeps(set(//...), set(${changedFileSet}) ))")
-- echo "Following targets will be build: ${buildTargets}"
+- echo "Following targets will be build:"
+- ehco  $buildTargets
 - bazel build $buildTargets
