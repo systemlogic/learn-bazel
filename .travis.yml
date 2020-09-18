@@ -14,6 +14,8 @@ before_install:
 install: true
 script:
 - source environment.bash
-- abc=$(git diff --name-only origin/master..origin/${TRAVIS_PULL_REQUEST_BRANCH} ) 
-- testTargets=$(bazel query "kind('.*_test rule', rdeps(set(//...), set(${abc}) ))")
+- changedFileSet=$(git diff --name-only origin/master..origin/${TRAVIS_PULL_REQUEST_BRANCH} ) 
+- testTargets=$(bazel query "kind('.*_test rule', rdeps(set(//...), set(${changedFileSet}) ))")
 - bazel test $testTargets
+- buildTargets=$(bazel query "kind('_library|_binary', rdeps(set(//...), set(${changedFileSet}) ))")
+- bazel build $buildTargets
