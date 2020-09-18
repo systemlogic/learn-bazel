@@ -1,6 +1,5 @@
 package main
 
-
 import(
   "fmt"
   "github.systemlogic.com/systemlogic/intro-to-bazel/go/A"

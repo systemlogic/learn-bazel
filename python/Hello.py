@@ -1,6 +1,5 @@
 import platform
 
-
 class Hello :
 
   def __init__(self):
