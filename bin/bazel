@@ -37,7 +37,7 @@ ONE_HOUR = 1 * 60 * 60
 
 LATEST_PATTERN = re.compile(r"latest(-(?P<offset>\d+))?$")
 
-USE_BAZEL_VERSION = "3.2.0"
+USE_BAZEL_VERSION = "3.1.0"
 
 
 def find_workspace_root(root=None):
