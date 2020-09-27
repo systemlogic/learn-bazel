@@ -152,3 +152,13 @@ where inputs, outputs and mnemonic are filter function.
 
 ## Configurable Query
 Executes a post-analysis dependency graph query.
+
+# Buildifier or Buildozer
+To format and remove the unused loads
+```
+buildozer 'fix unusedLoads' //...:*
+```
+or to simply fix the formatting.
+```
+buildifier --mode=fix //...:*
+```
