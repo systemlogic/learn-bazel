@@ -1,6 +1,10 @@
 language: java
 dist: trusty
 sudo: required
+cache:
+  directories:
+  - .autoconf
+  - $HOME/.cache
 services:
 - docker
 before_install:
