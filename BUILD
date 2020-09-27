@@ -3,6 +3,7 @@ exports_files([".gitignore"])
 exports_files([".travis.yml"])
 exports_files(["bin/bazel"])
 exports_files(["README.md"])
+exports_files([".bazelrc"])
 #filegroup(
 #    name = "srcs",
 #    srcs = glob(["**"]),
