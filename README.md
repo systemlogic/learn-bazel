@@ -141,7 +141,7 @@ There is other custom rules to do so. https://github.com/jinfwhuang/bazel-exampl
 
 
 ## Action Query
-Interested in the properties of the Actions/Artifacts generated.
+Executes a query on the post-analysis action graph.
 ```
 bazel aquery 'deps(//java:Hello)'
 bazel aquery 'mnemonic("JavaDeployJar", deps(//java/...))'
@@ -151,4 +151,4 @@ bazel aquery 'outputs("bazel-out/k8-fastbuild/internal/_middlemen/java_Scom_Ssys
 where inputs, outputs and mnemonic are filter function.
 
 ## Configurable Query
-
+Executes a post-analysis dependency graph query.
