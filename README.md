@@ -153,12 +153,16 @@ where inputs, outputs and mnemonic are filter function.
 ## Configurable Query
 Executes a post-analysis dependency graph query.
 
-# Buildifier or Buildozer
+# Buildifier, Buildozer and Unused Deps
 To format and remove the unused loads
 ```
 buildozer 'fix unusedLoads' //...:*
 ```
 or to simply fix the formatting.
 ```
-buildifier --mode=fix //...:*
+buildifier --mode=fix BUILD
+```
+Unused Deps is a command line tool to determine any unused dependencies in java_library rules. Please add one dependency and run the unused command.
+```
+unused_deps <JAVA TARGET NAME>
 ```
